@@ -36,8 +36,8 @@ module matmul_mxnxl_tb;
     initial begin
 
         rstn <= 1'b0;
-        transformation_mtx <= 96'h010203_040506_070809_0A0B0C;
-        input_mtx <= 72'h010203_040506_070809;
+        transformation_mtx <= 96'h0102030405060708090A0B0C;
+        input_mtx <= 72'h010203040506070809;
         
         
         #(CLK_PERIOD)
