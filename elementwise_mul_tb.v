@@ -6,7 +6,7 @@ parameter W=8;
     reg rstn;
     reg [16*W-1:0] i_mtx_u; // 4x4 mtx in 1D tensor(len=16)
     reg [16*W-1:0] i_mtx_v; // 4x4 mtx in 1D tensor(len=16)
-    wire [16*W-1:0] o_mtx_m; // 4x4 mtx in 1D tensor(len=16), each element = 16bit
+	wire [16*W*2-1:0] o_mtx_m; // 4x4 mtx in 1D tensor(len=16), each element = 16bit
 //-------------------------------------------
 // DUT: Elementwise multiplier
 //-------------------------------------------
