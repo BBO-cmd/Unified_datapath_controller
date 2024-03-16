@@ -1,0 +1,124 @@
+#include <iostream>
+#include <vector>
+
+// Function to perform matrix multiplication
+std::vector<std::vector<float>> matrix_multiply(const std::vector<std::vector<float>>& mat1, const std::vector<std::vector<float>>& mat2) {
+    float rows1 = mat1.size();
+    float cols1 = mat1[0].size();
+    float cols2 = mat2[0].size();
+
+    std::vector<std::vector<float>> result(rows1, std::vector<float>(cols2, 0));
+
+    for (float i = 0; i < rows1; ++i) {
+        for (float j = 0; j < cols2; ++j) {
+            for (float k = 0; k < cols1; ++k) {
+                result[i][j] += mat1[i][k] * mat2[k][j];
+            }
+        }
+    }
+
+    return result;
+}
+
+// Function to calculate the transpose of a matrix
+std::vector<std::vector<float>> transpose(const std::vector<std::vector<float>>& mat) {
+    float rows = mat.size();
+    float cols = mat[0].size();
+
+    std::vector<std::vector<float>> result(cols, std::vector<float>(rows, 0));
+
+    for (float i = 0; i < rows; ++i) {
+        for (float j = 0; j < cols; ++j) {
+            result[j][i] = mat[i][j];
+        }
+    }
+
+    return result;
+}
+
+// Function to print a matrix
+void print_matrix(const std::vector<std::vector<float>>& mat) {
+    for (const auto& row : mat) {
+        for (float element : row) {
+            std::cout << element << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+float main() {
+
+    ////filter transformation verification
+    // 
+    //// Define matrices G (4x3) and g (3x3)
+    //std::vector<std::vector<float>> G = { {1, 0, 0},
+    //                                    {0.5f, 0.5f, 0.5f},
+    //                                    {0.5f, -0.5f, 0.5f},
+    //                                    {0, 0, 1} };
+    //std::vector<std::vector<float>> g = { {8, 8, 8},
+    //                                    {6, 6, 6},
+    //                                    {4, 4, 4} };
+
+    //// Perform matrix multiplication G * g
+    //std::vector<std::vector<float>> Gg = matrix_multiply(G, g);
+    //std::cout << "G*g: " << std::endl;
+    //print_matrix(Gg);
+
+    //// Calculate the transpose of G
+    //std::vector<std::vector<float>> G_transpose = transpose(G);
+    //std::cout << "G_transpose: " << std::endl;
+    //print_matrix(G_transpose);
+
+    //// Perform matrix multiplication (G * g) * G_transpose
+    //std::vector<std::vector<float>> result = matrix_multiply(Gg, G_transpose);
+
+    //// print result
+    //std::cout << "Result of (G * g) * G_transpose:" << std::endl;
+    //print_matrix(result);
+
+
+
+
+
+
+
+
+
+
+
+
+    //Data transfomration verification
+    // 
+    // Define matrices B_transpose (4x4) and d (4x4)
+    std::vector<std::vector<float>> B_transpose = { {1, 0, -1, 0},
+                                        {0, 1, 1, 0},
+                                        {0, -1, 1, 0},
+                                        {0, 1, 0, -1} };
+    std::vector<std::vector<float>> d = { {4, 4, 4, 4},
+                                        {3, 3, 3, 3},
+                                        {2, 2, 2, 2},
+                                        {1, 1, 1, 1} };
+
+    // Perform matrix multiplication B_transpose * d
+    std::vector<std::vector<float>> B_td = matrix_multiply(B_transpose, d);
+    std::cout << "B_transpose*d: " << std::endl;
+    print_matrix(B_td);
+
+    // Calculate the transpose of B_transpose
+    std::vector<std::vector<float>> B = transpose(B_transpose);
+    std::cout << "B: " << std::endl;
+    print_matrix(B);
+
+    // Perform matrix multiplication (B_transpose * d) * B
+    std::vector<std::vector<float>> result = matrix_multiply(B_td, B);
+
+    // print result
+    std::cout << "Result of (B_transpose * d) * B:" << std::endl;
+    print_matrix(result);
+
+
+
+
+
+    return 0;
+}
