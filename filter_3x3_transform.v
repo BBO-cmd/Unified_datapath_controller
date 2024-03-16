@@ -1,32 +1,46 @@
 `timescale 1ns / 1ps
 
-//for the fixed B_transpose(4x4)
-module data_4x4_transform #(parameter W=8)(
+//for the fixed G(4x3)
+module filter_3x3_transform #(parameter W=8)(
     input clk,
-    input rstn, 
-    input [127:0] data,
-    output [127:0] data_transformed
+    input rstn,
+    input [71:0] filter,
+    output [127:0] filter_transformed
 );
 
-//B_transpose d B = 4x4
-assign data_transformed[0*W +: W] = data[0*W +: W] - data[8*W +: W] - data[2*W +: W] + data[10*W +: W];
-assign data_transformed[1*W +: W] = data[1*W +: W] - data[9*W +: W] + data[2*W +: W] - data[10*W +: W];
-assign data_transformed[2*W +: W] = - data[1*W +: W] + data[9*W +: W] + data[2*W +: W] - data[10*W +: W];
-assign data_transformed[3*W +: W] = data[1*W +: W] - data[9*W +: W] - data[3*W +: W] + data[11*W +: W];
 
-assign data_transformed[4*W +: W] = data[4*W +: W] + data[8*W +: W] - data[6*W +: W] - data[10*W +: W];
-assign data_transformed[5*W +: W] = data[5*W +: W] + data[9*W +: W] + data[6*W +: W] + data[10*W +: W];
-assign data_transformed[6*W +: W] = - data[5*W +: W] - data[9*W +: W] + data[6*W +: W] + data[10*W +: W];
-assign data_transformed[7*W +: W] = data[5*W +: W] + data[9*W +: W] - data[7*W +: W] - data[11*W +: W];
+//G g G_transpose = 4x4
+assign filter_transformed[0*W +: W] = filter[0*W +: W];
+assign filter_transformed[1*W +: W] = ( filter[0*W +: W] + filter[1*W +: W] + filter[2*W +: W] ) >>> 1 ;
+assign filter_transformed[2*W +: W] = ( filter[0*W +: W] - filter[1*W +: W] + filter[2*W +: W] ) >>> 1 ;
+assign filter_transformed[3*W +: W] = filter[2*W +: W];
 
-assign data_transformed[8*W +: W] = - data[4*W +: W] + data[8*W +: W] + data[6*W +: W] - data[10*W +: W];
-assign data_transformed[9*W +: W] = - data[5*W +: W] + data[9*W +: W] - data[6*W +: W] + data[10*W +: W];
-assign data_transformed[10*W +: W] = data[0*W +: W] - data[8*W +: W] - data[2*W +: W] + data[10*W +: W];
-assign data_transformed[11*W +: W] = - data[5*W +: W] + data[9*W +: W] + data[7*W +: W] - data[11*W +: W];
 
-assign data_transformed[12*W +: W] = data[4*W +: W] - data[12*W +: W] - data[6*W +: W] + data[14*W +: W];
-assign data_transformed[13*W +: W] = data[5*W +: W] - data[13*W +: W] + data[6*W +: W] - data[14*W +: W];
-assign data_transformed[14*W +: W] = - data[5*W +: W] + data[13*W +: W] + data[6*W +: W] - data[14*W +: W];
-assign data_transformed[15*W +: W] = data[5*W +: W] - data[13*W +: W] - data[7*W +: W] + data[15*W +: W];
+assign filter_transformed[4*W +: W] = ( filter[0*W +: W] + filter[3*W +: W] + filter[6*W +: W] ) >>> 1 ;
+assign filter_transformed[5*W +: W] = ( filter[0*W +: W] + filter[1*W +: W] + filter[2*W +: W]
+                                + filter[3*W +: W] + filter[4*W +: W] + filter[5*W +: W]
+                                + filter[6*W +: W] + filter[7*W +: W] + filter[8*W +: W]  ) >>> 2 ;
+assign filter_transformed[6*W +: W] = ( filter[0*W +: W] + filter[3*W +: W] + filter[6*W +: W]
+                                - filter[1*W +: W] - filter[4*W +: W] - filter[7*W +: W]
+                                + filter[2*W +: W] + filter[5*W +: W] + filter[8*W +: W]  ) >>> 2 ;
+assign filter_transformed[7*W +: W] = ( filter[2*W +: W] + filter[5*W +: W] + filter[8*W +: W] ) >>> 1 ;
+
+
+assign filter_transformed[8*W +: W] = ( filter[0*W +: W] - filter[3*W +: W] + filter[6*W +: W] ) >>> 1 ;
+assign filter_transformed[9*W +: W] = ( filter[0*W +: W] - filter[3*W +: W] + filter[6*W +: W]
+                                - filter[1*W +: W] + filter[4*W +: W] - filter[7*W +: W]
+                                + filter[2*W +: W] - filter[5*W +: W] + filter[8*W +: W]  ) >>> 2 ;
+assign filter_transformed[10*W +: W] = ( filter[0*W +: W] - filter[1*W +: W] + filter[2*W +: W]
+                                + filter[3*W +: W] - filter[4*W +: W] + filter[5*W +: W]
+                                + filter[6*W +: W] - filter[7*W +: W] + filter[8*W +: W]  ) >>> 2 ;
+assign filter_transformed[11*W +: W] = ( filter[2*W +: W] - filter[5*W +: W] + filter[8*W +: W] ) >>> 1 ;
+
+
+assign filter_transformed[12*W +: W] = filter[6*W +: W];
+assign filter_transformed[13*W +: W] = ( filter[6*W +: W] + filter[7*W +: W] + filter[8*W +: W] ) >>> 1 ;
+assign filter_transformed[14*W +: W] = ( filter[6*W +: W] - filter[7*W +: W] + filter[8*W +: W] ) >>> 1 ;
+assign filter_transformed[15*W +: W] = filter[8*W +: W];
+
 
 endmodule
+
