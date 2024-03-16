@@ -28,10 +28,10 @@ assign filter_transformed[7*W +: W] = ( filter[2*W +: W] + filter[5*W +: W] + fi
 
 assign filter_transformed[8*W +: W] = ( filter[0*W +: W] - filter[3*W +: W] + filter[6*W +: W] ) >>> 1 ;
 assign filter_transformed[9*W +: W] = ( filter[0*W +: W] - filter[3*W +: W] + filter[6*W +: W]
-                                - filter[1*W +: W] + filter[4*W +: W] - filter[7*W +: W]
+                                + filter[1*W +: W] - filter[4*W +: W] + filter[7*W +: W]
                                 + filter[2*W +: W] - filter[5*W +: W] + filter[8*W +: W]  ) >>> 2 ;
 assign filter_transformed[10*W +: W] = ( filter[0*W +: W] - filter[1*W +: W] + filter[2*W +: W]
-                                + filter[3*W +: W] - filter[4*W +: W] + filter[5*W +: W]
+                                - filter[3*W +: W] + filter[4*W +: W] - filter[5*W +: W]
                                 + filter[6*W +: W] - filter[7*W +: W] + filter[8*W +: W]  ) >>> 2 ;
 assign filter_transformed[11*W +: W] = ( filter[2*W +: W] - filter[5*W +: W] + filter[8*W +: W] ) >>> 1 ;
 
