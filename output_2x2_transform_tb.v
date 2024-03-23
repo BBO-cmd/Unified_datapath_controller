@@ -6,14 +6,14 @@ parameter W=16;
 reg clk;
 reg rstn;
 reg [255:0] M; //4x4
-wire [63:0] Y; //2x2
+wire [63:0] output_transformed; //2x2
 
 //DUT : output 2x2 transform
 output_2x2_transform u_output_2x2_transform(
     .clk(clk),
     .rstn(rstn),
     .M(M),
-    .Y(Y)
+    .Y(output_transformed)
 );
 
 //clock generation 
