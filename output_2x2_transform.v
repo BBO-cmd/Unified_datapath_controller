@@ -5,7 +5,7 @@ module output_2x2_transform #(parameter W=16)(
     input clk,
     input rstn,
     input [255:0] M, //4x4, result of elementwise 16 multiplications
-    output [63:0] Y //2z2
+    output [63:0] Y //2x2
 );
 
 reg [W*8-1:0] A_TM;
@@ -32,15 +32,16 @@ always @(posedge clk, negedge rstn) begin
             A_TM[6*W +: W] <= M[6*W +: W] - M[10*W +: W] - M[14*W +: W];
             A_TM[7*W +: W] <= M[7*W +: W] - M[11*W +: W] - M[15*W +: W];
 
+        end
+end
 
+always @(posedge clk, negedge rstn) begin
             //A_transpos M A = Y 2x2
             output_transformed[0*W +: W] <= A_TM[0*W +: W] + A_TM[1*W +: W] + A_TM[2*W +: W];
             output_transformed[1*W +: W] <= A_TM[1*W +: W] - A_TM[2*W +: W] - A_TM[3*W +: W];
             output_transformed[2*W +: W] <= A_TM[4*W +: W] + A_TM[5*W +: W] + A_TM[6*W +: W];
-            output_transformed[3*W +: W] <= A_TM[5*W +: W] - A_TM[6*W +: W] - A_TM[7*W +: W];
+end
 
-        end
-    end
 
 assign Y = output_transformed;
 
