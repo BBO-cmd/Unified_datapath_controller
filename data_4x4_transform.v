@@ -12,16 +12,13 @@ reg [W*16-1:0] B_Td;
 reg [W*16-1:0] data_transformed;
 
 always @(posedge clk, negedge rstn)
-     
+    
     begin 
-        if(rstn) begin
-            B_Td <= 0; //always posedge...에는 항상 non-blocking 사용 권장
+        if(!rstn) begin
+            B_Td <= 0; 
             data_transformed <= 0;
         end
         
-
-
-
         else begin
 
             //B_Td = 4x4
@@ -77,6 +74,5 @@ always @(posedge clk, negedge rstn)
     end
 
 assign data_out = data_transformed;
-
 
 endmodule
