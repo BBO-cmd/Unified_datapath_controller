@@ -1,20 +1,19 @@
 `timescale 1ns / 1ps
 
 //for the fixed G(4x3)
-module filter_3x3_transform #(parameter W=10)(
+module filter_3x3_transform #(parameter W=8)(
     input clk,
     input rstn,
     input [71:0] filter,
-    output [16*W-1:0] filter_out
+    output [127:0] filter_out
 );
 
-reg [W*12-1:0] Gg; //곱이지만 사실상 합으로 구현했으므로 width는 8+8+8을 고려하여 10으로 param 설정
-reg [W*16-1:0] filter_transformed; //same as above
+reg [W*12-1:0] Gg;
+reg [W*16-1:0] filter_transformed;
 
 //Gg
-always@(posedge clk, negedge rstn)
+always@(posedge clk, negedge rstn) begin
 
-begin
     if(!rstn) begin 
         Gg <= 0;
         filter_transformed <= 0;
@@ -59,13 +58,12 @@ begin
         filter_transformed[13*W +: W] <= ( Gg[9*W +: W] + Gg[10*W +: W] + Gg[11*W +: W] ) >>> 1 ;
         filter_transformed[14*W +: W] <= ( Gg[9*W +: W] - Gg[10*W +: W] + Gg[11*W +: W] ) >>> 1 ;
         filter_transformed[15*W +: W] <= Gg[11*W +: W];
-        
     end
 
 end
 
 assign filter_out = filter_transformed;
 
-
 endmodule
+
 
