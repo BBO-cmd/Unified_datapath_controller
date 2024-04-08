@@ -38,6 +38,8 @@ using namespace std;
             }
         }
     }
+
+
     return result;
 }
 
@@ -57,28 +59,50 @@ using namespace std;
 }
 
 
- vector< vector<float>> winogradConvolution( vector< vector<float>> input,  vector< vector<float>> filter) {
+ vector< vector<float>> winogradConvolution(vector< vector<float>> input, vector< vector<float>> filter) {
 
-     vector< vector<float>> G = { {1, 0, 0},
+     vector< vector<float>> G = 
+     /*{ {1, 0, 0},
                                         {0.5f, 0.5f, 0.5f},
                                         {0.5f, -0.5f, 0.5f},
-                                        {0, 0, 1} };
+                                        {0, 0, 1} };*/
+     { {1,0,0}, {0.5f, -0.5f, 0.5f}, {0.5f, 0.5f, 0.5f}, {0,0,1} };
 
 
      vector< vector<float>> Gg = matrix_multiply(G, filter);
      vector< vector<float>> G_transpose = transpose(G);
      vector< vector<float>> result1 = matrix_multiply(Gg, G_transpose);
 
+     cout << "Filter Transformation Output: " << endl;
+     for (auto& row : result1) {
+         for (int val : row) {
+             cout << val << " ";
+         }
+         cout << endl;
+     }
 
 
 
-     vector< vector<float>> B_transpose = { {1, 0, -1, 0},
-                                         {0, 1, 1, 0},
-                                         {0, -1, 1, 0},
-                                         {0, 1, 0, -1} };
+
+     vector< vector<float>> B_transpose = 
+     //{ {1, 0, -1, 0},
+     //                                    {0, 1, 1, 0},
+     //                                    {0, -1, 1, 0},
+     //                                    {0, 1, 0, -1} };
+     { {-1, 0, 1, 0}, {0,1,-1,0}, {0,1,1,0}, {0,-1,0,1}};
      vector< vector<float>> B_td = matrix_multiply(B_transpose, input);
      vector< vector<float>> B = transpose(B_transpose);
      vector< vector<float>> result2 = matrix_multiply(B_td, B);
+
+
+     cout << "Data Transformation Output: " << endl;
+     for (auto& row : result2) {
+         for (int val : row) {
+             cout << val << " ";
+         }
+         cout << endl;
+     }
+
 
 
      vector< vector<float>> M(4,  vector<float>(4, 0));
@@ -89,14 +113,36 @@ using namespace std;
 
     }
 
+    cout << "Elementwise mul Output: " << endl;
+    for (auto& row : M) {
+        for (int val : row) {
+            cout << val << " ";
+        }
+        cout << endl;
+    }
 
-     vector< vector<float>> A_transpose = { {1, 1, 1, 0},
-                                                     {0, 1, -1, -1} };
+
+
+    vector< vector<float>> A_transpose =
+        //{ {1, 1, 1, 0}, {0, 1, -1, -1} };
+    { { -1, -1, 1, 0 },  { 0, 1, 1, 1, } };
      vector< vector<float>> A_tM = matrix_multiply(A_transpose, M);
      vector< vector<float>> A = transpose(A_transpose);
      vector< vector<float>> result3 = matrix_multiply(A_tM, A);
 
      //cout << "if this is printed, well executed" << endl;
+
+
+     cout << "output transform Output: " << endl;
+     for (auto& row : result3) {
+         for (int val : row) {
+             cout << val << " ";
+         }
+         cout << endl;
+     }
+
+
+
 
     return result3;
 }
@@ -104,17 +150,17 @@ using namespace std;
 int main() {
     // Input data (4x4)
      vector< vector<float>> input = {
-        {1, 1, 1, 1},
-        {2, 2, 2, 2},
-        {3, 3, 3 , 3},
-        {4, 4, 4, 4}
+        {4, 4, 4, 4},
+        {3, 3, 3, 3},
+        {2, 2, 2 , 2},
+        {1, 1, 1, 1}
     };
 
     // Filter (3x3)
      vector< vector<float>>  filter = {
-        {1, 2, 3},
-        {4, 5, 6},
-        {7, 8,9}
+        {9, 8, 7},
+        {6, 5, 4},
+        {3, 2,1}
     };
 
      vector <vector<float> > standardResult = standardConvolution(input, filter);
