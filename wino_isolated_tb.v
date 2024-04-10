@@ -14,7 +14,6 @@ wire [127:0] Y;
 wire [191:0] filter_transformed;
 wire [191:0] data_transformed;
 wire [383:0] o_mtx_m;
-//wire [383:0] elementwise_op;
 
 
 //clock generation
@@ -36,10 +35,10 @@ initial begin
     #(4*CLK_PERIOD)
 
          @(posedge clk)
-                filter = 72'h010203040506070809;
-                data = 128'h01010101020202020303030304040404;
+                filter = 72'h090807060504030201;
+                data = 128'h04040404030303030202020201010101;
 
-    //#(4*CLK_PERIOD) rstn <= 1'b0;
+
 
 end
 
